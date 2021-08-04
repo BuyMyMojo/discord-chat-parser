@@ -13,6 +13,7 @@ def main(in_args):
     user_data = read_csv(in_args.csv_input)
     discord_ids = user_data['AuthorID'].tolist()
 
+    # check if the output exists to add new IDs too
     if os.path.isfile(in_args.csv_output) is False:
         write_csv(["User ID"], in_args.csv_output)
     else:
@@ -20,18 +21,23 @@ def main(in_args):
         for x in old_data['User ID'].tolist():
             unique_old.append(int(x))
 
+    # check for new IDs
     for user_id in discord_ids:
         int_id = int(user_id)
         print("User: ", str(int_id), end="\r", flush=True)
         if user_id not in unique_ids and user_id not in unique_old:
             unique_ids.append(user_id)
 
+    # add users to the CSV
     for user_id in unique_ids:
         print("User: ", str(user_id), end="\r", flush=True)
         update_csv(user_id, in_args.csv_output)
 
+    print("Done.")
+
 
 def write_csv(fields, csv_path):
+    """Create initial csv file"""
     with open(csv_path, 'w', newline='') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=fields)
 
@@ -39,7 +45,7 @@ def write_csv(fields, csv_path):
 
 
 def update_csv(uids, csv_path):
-    # print("FPS: ", str(FPS), end="\r", flush=True)
+    """Add ids into CSV"""
     with open(csv_path, 'a', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow([uids])
