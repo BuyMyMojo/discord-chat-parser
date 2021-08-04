@@ -3,3 +3,5 @@ this tool will take a csv (or a folder of them) from Discord Chat Exporter and c
 Made to get all active users from a discord server.
 
 > py ./main.py [csv file or dir] [output csv]
+ 
+Use the same output between multiple runs works and takes into account old data to ensure no dupes
