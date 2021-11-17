@@ -1,11 +1,29 @@
-# Discord Chat Exporter csv parser
-[![wakatime](https://wakatime.com/badge/github/BuyMyMojo/discord-chat-parser.svg)](https://wakatime.com/badge/github/BuyMyMojo/discord-chat-parser)
+# Discord Chat Exporter csv parsers
 
+<sub> Now with a much faster version written in go! </sub>
 
-this tool will take a csv (or a folder of them) from Discord Chat Exporter and create a new list of unique IDs.
-Made to get all active users from a discord server.
+## How to use the go version
 
+To run the go versions all you need to do is download the executable for your platform and run it from the terminal/powershell:
 
-> py ./main.py [csv file or dir] [output csv]
- 
+```bash
+./IdParser[.exe] -i [Path to folder/file] -o [Path to output .csv (Defaults to ./out.csv)]
+```
+
 Use the same output between multiple runs works and takes into account old data to ensure no dupes
+
+```bash
+./LocateID[.exe] -i [Path to folder/fil] -id "[User ID in quotes]" -o [Path to output csv (Optional)]
+```
+
+## How to use the Python version
+
+```bash
+py ./main.py [csv file or dir] [output csv]
+```
+
+Use the same output between multiple runs works and takes into account old data to ensure no dupes
+
+``` bash
+py ./locate_id.py [User ID] [csv file or dir]
+```
