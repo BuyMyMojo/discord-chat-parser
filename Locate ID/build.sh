@@ -3,7 +3,7 @@
 package="./LocateID.go"
 
 package_split=(${package//\// })
-package_name="IdParser"
+package_name="LocateID"
 
 platforms=("windows/amd64" "windows/386" "linux/amd64" "linux/386" "linux/arm64" "linux/arm")
 
