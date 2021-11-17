@@ -2,6 +2,8 @@
 
 <sub> Now with a much faster version written in go! </sub>
 
+<sub> Each go executable is in it's own sub dir while the python mains in the root dir</sub>
+
 ## How to use the go version
 
 To run the go versions all you need to do is download the executable for your platform and run it from the terminal/powershell:
