@@ -9,7 +9,7 @@
 To run the go versions all you need to do is download the executable for your platform and run it from the terminal/powershell:
 
 ```bash
-./IdParser[.exe] -i [Path to folder/file] -o [Path to output .csv (Defaults to ./out.csv)]
+./ParseIDs[.exe] -i [Path to folder/file] -o [Path to output .csv (Defaults to ./out.csv)]
 ```
 
 Use the same output between multiple runs works and takes into account old data to ensure no dupes
