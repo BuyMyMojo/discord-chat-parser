@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+go mod download
+
 package="./LocateID.go"
 
 package_split=(${package//\// })
