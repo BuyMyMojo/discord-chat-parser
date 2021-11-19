@@ -2,7 +2,7 @@
 
 go mod download
 
-package="./User ID Parser/IdParser.go"
+package="$PWD/User ID Parser/IdParser.go"
 
 package_split=(${package//\// })
 package_name="IdParser"
@@ -19,7 +19,7 @@ do
         output_name+='.exe'
     fi
 
-    env GOOS=$GOOS GOARCH=$GOARCH GOPATH="./User ID Parser/" go build -o ./User ID Praser/build/$output_name $package
+    env GOOS=$GOOS GOARCH=$GOARCH GOPATH="$PWD/User ID Parser/" go build -o ./User ID Praser/build/$output_name $package
     if [ $? -ne 0 ]; then
         echo 'An error has occurred! Aborting the script execution...'
         exit 1
