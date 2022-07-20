@@ -1,13 +1,16 @@
 package main
 
 import (
+	"bytes"
 	"encoding/csv"
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 )
 
 // Variables used for command line parameters
@@ -79,7 +82,7 @@ func process(CsvPath string) {
 		// Read CSV file
 		lines, err := ReadCsv(CsvOutput)
 		if err != nil {
-			panic(err)
+			return
 		}
 
 		// Loop through lines & add to DiscordIDs list
@@ -160,11 +163,21 @@ func ReadCsv(filename string) ([][]string, error) {
 	}
 	defer f.Close()
 
-	var x string
-	f.WriteString(x)
+	var buf bytes.Buffer
+	io.Copy(&buf, f)
+
+	x := string(buf.Bytes())
+
+	strings.ReplaceAll(x, "\r\n", "\n")
+
+	strings.ReplaceAll(x, "\r\n", " ")
+
+	reader := csv.NewReader(strings.NewReader(x))
+
+	reader.ReuseRecord = true
 
 	// Read File into a Variable
-	lines, err := csv.NewReader(f).ReadAll()
+	lines, err := reader.ReadAll()
 	if err != nil {
 		return [][]string{}, err
 	}
