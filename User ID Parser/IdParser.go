@@ -12,10 +12,11 @@ import (
 
 // Variables used for command line parameters
 var (
-	CsvInput   string
-	CsvOutput  string
-	unique_old []string
-	unique_ids []string
+	CsvInput    string
+	CsvOutput   string
+	unique_old  []string
+	unique_name []string
+	unique_ids  []string
 )
 
 func init() {
@@ -27,7 +28,8 @@ func init() {
 
 // struct for getting just user ID out of csv file
 type DiscordCSV struct {
-	UserID string
+	UserID   string
+	Username string
 }
 
 func main() {
@@ -79,14 +81,19 @@ func process(CsvPath string) {
 		if err != nil {
 			panic(err)
 		}
-		// Loop through lines & turn into object
-		for _, line := range lines {
-			data := DiscordCSV{
-				UserID: line[0],
-			}
-			unique_old = append(unique_old, data.UserID)
-		}
 
+		// Loop through lines & add to DiscordIDs list
+		for i, _ := range lines {
+
+			data := DiscordCSV{
+				UserID:   lines[i][0],
+				Username: lines[i][1],
+			}
+			if !contains(unique_old, data.UserID) {
+				unique_old = append(unique_old, data.UserID)
+				unique_name = append(unique_name, data.Username)
+			}
+		}
 		WriteCSV(CsvPath)
 
 	} else if errors.Is(err, os.ErrNotExist) {
@@ -112,6 +119,7 @@ func process(CsvPath string) {
 func WriteCSV(InFile string) {
 	// Create DiscordIDs list
 	var DiscordIDs []string
+	var DiscordNames []string
 
 	// Read CSV file
 	lines, err := ReadCsv(InFile)
@@ -122,20 +130,23 @@ func WriteCSV(InFile string) {
 	OutFile, err := os.OpenFile(CsvOutput, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 
 	// Loop through lines & add to DiscordIDs list
-	for _, line := range lines {
+	for i, _ := range lines {
+
 		data := DiscordCSV{
-			UserID: line[0],
+			UserID:   lines[i][0],
+			Username: lines[i][1],
 		}
 		if !contains(DiscordIDs, data.UserID) {
 			DiscordIDs = append(DiscordIDs, data.UserID)
+			DiscordNames = append(DiscordNames, data.Username)
 		}
 	}
 
 	// Checks if ID is already in list
 	// if it isnt then it gets writen to list
-	for _, ID := range DiscordIDs {
+	for i, ID := range DiscordIDs {
 		if !contains(unique_old, ID) {
-			OutFile.WriteString(ID + "\n")
+			OutFile.WriteString(ID + "," + DiscordNames[i] + "\n")
 		}
 	}
 }
@@ -148,6 +159,9 @@ func ReadCsv(filename string) ([][]string, error) {
 		return [][]string{}, err
 	}
 	defer f.Close()
+
+	var x string
+	f.WriteString(x)
 
 	// Read File into a Variable
 	lines, err := csv.NewReader(f).ReadAll()
