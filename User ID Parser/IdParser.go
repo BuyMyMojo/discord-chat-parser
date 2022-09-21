@@ -61,9 +61,17 @@ func main() {
 		// For each file in folder
 		for _, file := range files {
 			if !file.IsDir() {
-				process(CsvInput + file.Name())
-			}
+				// file is not a directory so process it's full path
+				// check if windows or linux
+				if strings.Contains(CsvInput, "\\") {
+					// windows
+					process(CsvInput + "\\" + file.Name())
+				} else {
+					// linux
+					process(CsvInput + "/" + file.Name())
+				}
 
+			}
 		}
 
 	} else {
