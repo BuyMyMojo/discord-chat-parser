@@ -1,4 +1,4 @@
-# Discord Chat Exporter csv parsers
+# [Discord Chat Exporter](https://github.com/Tyrrrz/DiscordChatExporter) csv parsers
 
 <sub> Now with a much faster version written in go! </sub>
 
